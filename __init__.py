@@ -4,7 +4,8 @@ bl_info = {
     "version": (0, 1, 0),
     "blender": (4, 5, 0),
     "location": "Shader NodeTree > Side Panel",
-    "description": "",
+    "description": "Add attribute directly in shader nodetree",
+    "doc_url": "https://github.com/atticus-lv/AddShaderAttribute",
     "category": "Render",
 }
 
