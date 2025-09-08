@@ -1,0 +1,23 @@
+schema_version = "1.0.0"
+id = "AddShaderAttribute"
+name = "Add Shader Attribute"
+version = "0.1.0"
+tagline = "Add attribute directly in shader nodetree"
+maintainer = "Atticus"
+type = "add-on"
+tags = ["Render", "Material", "Node", "User Interface"]
+blender_version_min = "4.5.0"
+license = ["SPDX:GPL-3.0-or-later"]
+#website = ""
+copyright = ["2025 Atticus"]
+[build]
+paths_exclude_pattern = [
+    ".git/",
+    ".github/",
+    "__pycache__/",
+    ".gitignore",
+    ".idea/",
+    "docs/",
+    "README.md",
+    "build",
+]

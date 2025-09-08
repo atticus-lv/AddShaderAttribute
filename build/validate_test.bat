@@ -1,0 +1,1 @@
+blender --factory-startup --command extension validate --valid-tags="" "C:\Users\atticus\Desktop\blender_addon\addons\AddShaderAttribute"

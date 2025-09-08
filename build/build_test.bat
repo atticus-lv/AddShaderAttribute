@@ -1,0 +1,1 @@
+blender --factory-startup --command extension build --valid-tags="" --source-dir="C:\Users\atticus\Desktop\blender_addon\addons\AddShaderAttribute" --output-dir="C:\Users\atticus\Downloads"
