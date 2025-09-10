@@ -25,24 +25,30 @@ class ASA_MT_add_attr_menu(bpy.types.Menu):
     bl_idname = "ASA_MT_add_attr_menu"
     bl_label = "Attributes"
 
+    @classmethod
+    def poll(cls, context):
+        return context.object is not None
+
     def draw(self, context):
-        if not context.object: return
         layout = self.layout
+
         vg_names = vertex_groups_from_obj(context.object)
-        draw_names_button(layout, vg_names, icon="GROUP_VERTEX")
-
-        if vg_names:
-            layout.separator()
-
         mod_attr_names = attr_name_from_obj_modifiers(context.object)
-        draw_names_button(layout, mod_attr_names, icon="MODIFIER")
-        if mod_attr_names:
-            layout.separator()
-
         attr_names = attr_name_from_eval_obj(context.object)
-        attr_names = [name for name in attr_names if not name.startswith(".") and name not in mod_attr_names]
-        draw_names_button(layout, attr_names)
-        layout.menu(ASA_OT_add_hide_attr_menu.bl_idname, text="Hide")
+        normal_attr_names = [name for name in attr_names if not name.startswith(".") and name not in mod_attr_names]
+        hidden_attr_names = [name for name in attr_names if name.startswith(".")]
+
+        if len(vg_names) + len(mod_attr_names) + len(attr_names) == 0:
+            layout.label(text="No attributes on objects with this material")
+            return
+
+        draw_names_button(layout, vg_names, icon="GROUP_VERTEX")
+        draw_names_button(layout, mod_attr_names, icon="MODIFIER")
+        draw_names_button(layout, normal_attr_names)
+
+        layout.separator()
+        if hidden_attr_names:
+            layout.menu(ASA_MT_add_hide_attr_menu.bl_idname, text="Hide")
 
 
 def register():
