@@ -8,8 +8,8 @@ def draw_names_button(layout, names: list[str], icon: str = "NONE"):
         op.attr_name = name
 
 
-class ASA_OT_add_hide_attr_menu(bpy.types.Menu):
-    bl_idname = "ASA_OT_add_hide_attr_menu"
+class ASA_MT_add_hide_attr_menu(bpy.types.Menu):
+    bl_idname = "ASA_MT_add_hide_attr_menu"
     bl_label = "Hide"
 
     def draw(self, context):
@@ -46,10 +46,10 @@ class ASA_MT_add_attr_menu(bpy.types.Menu):
 
 
 def register():
-    bpy.utils.register_class(ASA_OT_add_hide_attr_menu)
+    bpy.utils.register_class(ASA_MT_add_hide_attr_menu)
     bpy.utils.register_class(ASA_MT_add_attr_menu)
 
 
 def unregister():
     bpy.utils.unregister_class(ASA_MT_add_attr_menu)
-    bpy.utils.unregister_class(ASA_OT_add_hide_attr_menu)
+    bpy.utils.unregister_class(ASA_MT_add_hide_attr_menu)
