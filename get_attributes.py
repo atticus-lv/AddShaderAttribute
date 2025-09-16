@@ -34,3 +34,24 @@ def attr_name_from_obj_modifiers(obj: bpy.types.Object) -> list[str]:
 def vertex_groups_from_obj(obj: bpy.types.Object) -> list[str]:
     if not hasattr(obj, 'vertex_groups'): return []
     return [vg.name for vg in obj.vertex_groups]
+
+
+def attr_name_from_obj_geo_instance(obj: bpy.types.Object) -> list[str]:
+    res = []
+    geo_types = ["mesh", "curves", "instances_pointcloud", "grease_pencil"]
+
+    depsgraph = bpy.context.view_layer.depsgraph
+    eval_obj = depsgraph.id_eval_get(obj)
+    geometry = eval_obj.evaluated_geometry()
+
+    # TODO: recursively get attributes from all instance level
+    if len(geometry.instance_references()) == 0: return res
+
+    for geo in geometry.instance_references():
+        for geo_type in geo_types:
+            if not hasattr(geo, geo_type): continue
+            geo_data = getattr(geo, geo_type)
+            if hasattr(geo_data, 'attributes'):
+                res += [attr.name for attr in geo_data.attributes]
+
+    return res

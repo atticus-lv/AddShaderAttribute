@@ -1,5 +1,6 @@
 import bpy
-from .get_attributes import vertex_groups_from_obj, attr_name_from_obj_modifiers, attr_name_from_eval_obj
+from .get_attributes import vertex_groups_from_obj, attr_name_from_obj_modifiers, attr_name_from_eval_obj, \
+    attr_name_from_obj_geo_instance
 
 
 def draw_names_button(layout, names: list[str], icon: str = "NONE"):
@@ -35,8 +36,22 @@ class ASA_MT_add_attr_menu(bpy.types.Menu):
         vg_names = vertex_groups_from_obj(context.object)
         mod_attr_names = attr_name_from_obj_modifiers(context.object)
         attr_names = attr_name_from_eval_obj(context.object)
+        instance_attr_names = attr_name_from_obj_geo_instance(context.object)
+
         normal_attr_names = [name for name in attr_names if not name.startswith(".") and name not in mod_attr_names]
         hidden_attr_names = [name for name in attr_names if name.startswith(".")]
+
+        normal_attr_names += set([
+            name for name in instance_attr_names if
+            not name.startswith(".") and
+            name not in normal_attr_names and
+            name not in mod_attr_names
+        ])
+        hidden_attr_names += set([
+            name for name in instance_attr_names if
+            name.startswith(".") and
+            name not in hidden_attr_names
+        ])
 
         if len(vg_names) + len(mod_attr_names) + len(attr_names) == 0:
             layout.label(text="No attributes on objects with this material")
